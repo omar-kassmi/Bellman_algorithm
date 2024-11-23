@@ -51,7 +51,30 @@ class Bellman_Graph:
             if arc.start == arc_to_modify.start and arc.end == arc_to_modify.end :
                 arc.weight = new_weight
                 break
-    
+
+    # Bellman calculation function
+    def bellman_algo(self, start):
+
+        # distances set initialization
+        distances = {}
+        # set all distances element to infinity expect the source
+        for vertex in self.vertices :
+            distances[vertex] = float('inf')
+        distances[start] = 0
+
+        # bellman algo execution
+        for _ in range(len(self.vertices) - 1):
+            for arc in self.arcs:
+                if distances[arc.start] != float('inf') and distances[arc.start] + arc.weight < distances[arc.end]:
+                    distances[arc.end] = distances[arc.start] + edge.weight
+
+        # Check for negative weight cycles
+        for arc in self.arcs:
+            if distances[arc.start] != float('inf') and distances[arc.start] + arc.weight < distances[arc.end]:
+                raise ValueError("Graph contains a negative weight cycle.")
+
+        return distances
+
     
 
 
