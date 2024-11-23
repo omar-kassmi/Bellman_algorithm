@@ -1,4 +1,4 @@
-import arc
+from arc import Arc
 import numpy as np
 
 
@@ -32,7 +32,7 @@ class Bellman_Graph:
     
     # add a new arc
     def add_new_arc(self, new_arc):
-        self.arcs.add(new_arc)
+        self.arcs.append(new_arc)
         self.add_new_vertex(new_arc.start)
         self.add_new_vertex(new_arc.end)
 
@@ -66,7 +66,7 @@ class Bellman_Graph:
         for _ in range(len(self.vertices) - 1):
             for arc in self.arcs:
                 if distances[arc.start] != float('inf') and distances[arc.start] + arc.weight < distances[arc.end]:
-                    distances[arc.end] = distances[arc.start] + edge.weight
+                    distances[arc.end] = distances[arc.start] + arc.weight
 
         # Check for negative weight cycles
         for arc in self.arcs:
@@ -75,12 +75,36 @@ class Bellman_Graph:
 
         return distances
 
-    
+""" Activate the code below to test """
+"""
+# Create instances of the Bellman_Graph and Arc classes
+graph = Bellman_Graph()
 
+# Add vertices
+graph.add_new_vertex('A')
+graph.add_new_vertex('B')
+graph.add_new_vertex('C')
+graph.add_new_vertex('D')
 
-    
+# Add arcs (edges) with weights
+graph.add_new_arc(Arc('A', 'B', 4))
+graph.add_new_arc(Arc('A', 'C', 2))
+graph.add_new_arc(Arc('B', 'C', 5))
+graph.add_new_arc(Arc('B', 'D', 10))
+graph.add_new_arc(Arc('C', 'D', 3))
 
+# Print the graph's arcs
+print("Arcs in the graph:")
+for arc in graph.arcs:
+    print(f"From {arc.start} to {arc.end} with weight {arc.weight}")
 
+# Test Bellman-Ford Algorithm from source 'A'
+print("\nTesting Bellman-Ford Algorithm from source 'A':")
+distances_from_A = graph.bellman_algo('A')
+print(distances_from_A)  # Expected shortest paths from A to all other vertices
 
-
-    
+# Test Bellman-Ford Algorithm from source 'B'
+print("\nTesting Bellman-Ford Algorithm from source 'B':")
+distances_from_B = graph.bellman_algo('B')
+print(distances_from_B)  # Expected shortest paths from B to all other vertices
+"""
